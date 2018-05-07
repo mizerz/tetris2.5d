@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<title>TETRIS 2.5D</title>
+		
+		<script src="js/main.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/minMatrix.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/gameMain.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/block.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="js/vertex.js" type="text/javascript" charset="UTF-8"></script>
+		
+		<script id="vs" type="x-shader/x-vertex">
+			attribute vec3 position;
+			attribute vec3 normal;
+			attribute vec4 color;
+			uniform   mat4 mvpMatrix;
+			varying   vec3 vNormal;
+			varying   vec4 vColor;
+			
+			void main(void){
+				vNormal     = normal;
+				vColor      = color;
+				gl_Position = mvpMatrix * vec4(position, 1.0);
+			}
+		</script>
+		
+		<script id="fs" type="x-shader/x-fragment">
+			precision mediump float;
+			
+			uniform mat4 invMatrix;
+			uniform vec3 lightDirection;
+			uniform vec4 ambientColor;
+			varying vec3 vNormal;
+			varying vec4 vColor;
+			
+			void main(void){
+				vec3  invLight  = normalize(invMatrix * vec4(lightDirection, 0.0)).xyz;
+				float diffuse   = clamp(dot(vNormal, invLight), 0.0, 1.0);
+				vec4  destColor = vColor * vec4(vec3(diffuse), 1.0) + ambientColor;
+				gl_FragColor    = destColor;
+			}
+		</script>
+	</head>
+	<body>
+		
+		<canvas id="canvas"></canvas>
+		
+		<p>キー操作が効かない場合は【半角/全角】を押した後【Enter】を押してください</p>
+		<p>マウスドラッグで色んな方向から見ることができます</p>
+		<p>W / ↑ : 回転</p>
+		<p>A / ← : 左移動</p>
+		<p>D / → : 右移動</p>
+		<p>S / ↓ : 高速落下</p>
+		
+	</body>
+</html>
