@@ -7,5 +7,3 @@ WebGLの勉強を兼ねて作成したテトリスで、ブラウザ上で遊ぶ
 Three.jsなどのライブラリは使用せず、WebGLを直に操作しています。
 
 https://mizerz.github.io/tetris2.5d/ （最新のリンク）
-
-https://zuibase.web.fc2.com/tetris/ （古いリンク）
